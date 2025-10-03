@@ -15,7 +15,7 @@ RUN if [ "$TARGETPLATFORM" = "linux/amd64" ]; then \
 
 FROM docker.io/restic/restic:0.18.0
 
-RUN apk add --update --no-cache curl mailx shadow
+RUN apk add --update --no-cache curl mailx shadow docker-cli
 
 COPY --from=rclone /bin/rclone /bin/rclone
 
@@ -55,7 +55,8 @@ RUN mkdir /.cache && \
     chgrp -R 0 /var/spool/cron/crontabs/root && \
     chmod -R g=u /var/spool/cron/crontabs/root && \
     chgrp -R 0 /var/log/cron.log && \
-    chmod -R g=u /var/log/cron.log
+    chmod -R g=u /var/log/cron.log && \
+    chmod +x /usr/bin/docker
 
 # /data is the dir where you have to put the data to be backed up
 VOLUME /data
